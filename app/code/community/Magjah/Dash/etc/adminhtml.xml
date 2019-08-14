@@ -17,7 +17,7 @@
         <resources>
             <admin>
                 <children>
-                    <magjah_dash translate="title" module="magjah_dash">
+                    <magjah translate="title" module="magjah_dash">
                         <title>Magjah</title>
                         <sort_order>65</sort_order>
                         <children>
@@ -26,18 +26,7 @@
                                 <sort_order>0</sort_order>
                             </dash>
                         </children>
-                    </magjah_dash>
-                    <system>
-                        <children>
-                            <config>
-                                <children>
-                                    <magjah_dash translate="title" module="magjah_dash">
-                                        <title>News Management</title>
-                                    </magjah_dash>
-                                </children>
-                            </config>
-                        </children>
-                    </system>
+                    </magjah>
                 </children>
             </admin>
         </resources>

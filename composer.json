@@ -3,8 +3,8 @@
     "type": "magento-module",
     "license": "OSL",
     "homepage": "",
-    "description": "This extension provides a dashboard with the three main elements of your store.
-Customer, Product and orders.",
+    "description": "The extension allows a statistical summary of the 3 main elements in a store: Customer, Products and Orders.
+It is a dashboard focused on detailing these elements.",
     "authors": [
     {
         "name": "Jose A Hernandez",
