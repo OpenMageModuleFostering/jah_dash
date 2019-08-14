@@ -1,0 +1,66 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_conns
+ * @package    Mage_Conns
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if ($_customer = $this->getCustomer()): ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-customer-view"><?php echo Mage::helper('customer')->__('Account Information') ?></h4>
+        </div>
+        <fieldset>
+            <table cellspacing="2" class="box-left">
+                <tr>
+                    <td><strong><?php echo $this->__('Prefix:') ?></strong></td>
+                    <td><?php echo $_customer->getPrefix() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('First Name:') ?></strong></td>
+                    <td><?php echo $_customer->getFirstname() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Middle Name/Initial:') ?></strong></td>
+                    <td><?php echo $_customer->getMiddlename() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Last Name:') ?></strong></td>
+                    <td><?php echo $_customer->getLastname() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Suffix:') ?></strong></td>
+                    <td><?php echo $_customer->getSuffix() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Email:') ?></strong></td>
+                    <td><?php echo $_customer->getEmail() ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Date Of Birth:') ?></strong></td>
+                    <td><?php echo $_customer->getDob() ?></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <?php echo $this->getChildHtml('customer_edit_tab_view') ?>
+    <?php echo $this->getChildHtml('customer_edit_tab_view_sales') ?>
+    <?php echo $this->getChildHtml('dash_dashmain_gridcustomer_accordion') ?>
+<?php elseif ($this->getEmptyText()): ?>
+    <div class="empty-text <?php echo $this->getEmptyTextClass() ?>"><?php echo $this->getEmptyText() ?></div>
+<?php endif; ?>
+

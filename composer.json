@@ -1,0 +1,17 @@
+{
+    "name": "OpenMageModuleFostering/jah_dash",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "This extension provides a dashboard with the three main elements of your store.
+Customer, Product and orders.",
+    "authors": [
+    {
+        "name": "Jose A Hernandez",
+        "email": "pepehernandez1980@gmail.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

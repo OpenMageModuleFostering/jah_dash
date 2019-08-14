@@ -1,0 +1,10 @@
+.gridContainerLeft{
+     float: left;
+    margin: 3px 0 20px;
+    width: 40%;
+}
+.gridContainerRight{
+    float: right;
+    margin: 3px 0 20px;
+    width: 59%;
+}

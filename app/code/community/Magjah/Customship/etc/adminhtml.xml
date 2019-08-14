@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <magjah translate="title" module="magjah_customship">
+            <title>Magjah</title>
+            <sort_order>1000</sort_order>
+            <children>
+                <ship>
+                    <title>Rules Shipping</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/ship</action>
+                </ship>
+            </children>
+        </magjah>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <magjah translate="title" module="magjah_customship">
+                        <title>Top Level Ship</title>
+                        <sort_order>1</sort_order>
+                        <children>
+                            <ship>
+                                <title>Ship Rules</title>
+                            </ship>
+                        </children>
+                    </magjah>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

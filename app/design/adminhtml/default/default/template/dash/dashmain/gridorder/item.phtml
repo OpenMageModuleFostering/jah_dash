@@ -1,0 +1,295 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_conns
+ * @package    Mage_Conns
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if($_order = $this->getOrder()): ?>
+
+    <?php $cnt=1 ?>
+
+
+
+    <div class="entry-edit" id="toporder-<?php echo $cnt ?>" style="margin:3px 0 20px 0;">
+        <?php if ($_order->getEmailSent()):
+            $_email=$this->__('Order confirmation email sent');
+        else:
+            $_email=$this->__('Order confirmation email not sent');
+        endif; ?>
+        <div class="entry-edit-head title">
+                <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?> (<?php echo $_email ?>)</h4>
+        </div>
+
+        <div class="box">
+
+            <div class="col3-set">
+
+                <?php /* @var $_order Mage_Sales_Model_Order */ ?>
+                <!--Order Information-->
+                <div class="entry-edit col-1">
+                    <div class="entry-edit-head">
+                        <h4 class="icon-head head-account">Order Information</h4>
+                    </div>
+                    <div class="fieldset">
+                        <table cellspacing="0" class="form-list">
+                            <tr>
+                                <td class="label"><label><?php echo Mage::helper('sales')->__('Conns Invoice Id') ?></label></td>
+                                <td><strong><?php echo $_order->getConnsInvoiceId(); ?></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo Mage::helper('sales')->__('Date Ordered') ?></label></td>
+                                <td><strong><?php echo $this->formatDate($_order->getCreatedAt(), 'medium', true) ?></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo Mage::helper('sales')->__('Shipping Method') ?></label></td>
+                                <td>
+                                    <?php  if ($_order->getTracksCollection()->count()) : ?>
+                                        <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopupUrlBySalesModel($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track the order') ?>"><?php echo $this->__('Track the order') ?></a><br />
+                                    <?php endif; ?>
+                                    <?php if ($_order->getShippingDescription()): ?>
+                                        <strong><?php echo $_order->getShippingDescription() ?></strong>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo Mage::helper('sales')->__('Payment Details') ?></label></td>
+                                <td>
+                                    <?php echo $this->getPaymentHtml($_order) ?>
+                                    <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+                                </td>
+                            </tr>
+                            <?php if($_order->getRelationParentId()): ?>
+                                <tr>
+                                    <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the previous order') ?></label></td>
+                                    <td><a href="<?php echo $this->getViewUrl($_order->getRelationParentId()) ?>"><?php echo $_order->getRelationParentRealId() ?></a></td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Account Information-->
+                <div class="entry-edit col-2">
+                    <div class="entry-edit-head">
+                        <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Account Information') ?></h4>
+                    </div>
+                    <div class="fieldset">
+                        <div class="hor-scroll">
+                            <table cellspacing="0" class="form-list">
+                                <?php if ($_order->getCustomerId() > 0): ?>
+                                    <tr>
+                                        <td class="label"><label><?php echo Mage::helper('sales')->__('Customer ID') ?></label></td>
+                                        <td><a href="<?php echo Mage::getUrl('adminhtml/customer/edit', array('id' => $_order->getCustomerId())) ?>"><strong><?php echo $this->htmlEscape($_order->getCustomerId()) ?></strong></a></td>
+                                    </tr>
+                                <?php endif; ?>
+                                <tr>
+                                    <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Name') ?></label></td>
+                                    <td><strong><?php echo $this->htmlEscape($_order->getCustomerName()) ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo Mage::helper('sales')->__('Email') ?></label></td>
+                                    <td><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label><?php echo Mage::helper('sales')->__('IP address') ?></label></td>
+                                    <td><strong><?php echo $this->htmlEscape($_order->getRemoteIp()) ?></strong></td>
+                                </tr>
+                                <?php if ($_groupName=$this->getCustomerGroupName()) : ?>
+                                    <tr>
+                                        <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Group') ?></label></td>
+                                        <td><strong><?php echo $_groupName ?></strong></td>
+                                    </tr>
+                                <?php endif; ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ===== END Status Block ===== -->
+
+        <div class="clear"></div>
+    </div><!-- //.col3-set -->
+
+    <!-- ===== Start Items Block ===== -->
+    <div class="items">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
+            </div>
+        </div>
+        <div class="grid np">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data order-tables">
+                    <col />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <col width="1" />
+                    <thead>
+                    <tr class="headings">
+                        <th><?php echo $this->helper('sales')->__('Product') ?></th>
+                        <th><?php echo $this->helper('sales')->__('SKU') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Original Price') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Price') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Qty') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Tax Amount') ?></th>
+                        <th><?php echo $this->helper('sales')->__('Discount Amount') ?></th>
+                        <th class="last"><?php echo $this->helper('sales')->__('Row Total') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $_items = $_order->getItemsCollection() ?>
+                    <?php $i=0;foreach ($_items as $_item):$i++ ?>
+                        <?php /* @var $_item Mage_Sales_Model_Order_Item */ ?>
+                        <?php $this->setPriceDataObject($_item) ?>
+                        <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
+                            <td class="name"><?php echo $_item->getName() ?></td>
+                            <td><?php echo $_item->getSku() ?></td>
+                            <td class="price"><?php echo $this->displayPriceAttribute('original_price', $_order) ?></td>
+                            <td class="price"><?php echo $this->displayPriceAttribute('price', $_order) ?></td>
+                            <td class="a-center"><?php echo $_item->getQtyOrdered()*1 ?></td>
+                            <td class="price"><?php echo $this->displayPriceAttribute('row_total', $_order) ?></td>
+                            <td class="price"><?php echo $this->displayPriceAttribute('tax_amount', $_order) ?></td>
+                            <td class="price"><?php echo $this->displayPriceAttribute('discount_amount', $_order) ?></td>
+                            <td class="last price">
+                                <?php echo $this->displayPrices(
+                                    $_item->getBaseRowTotal()-$_item->getBaseDiscountAmount()+$_item->getBaseTaxAmount(),
+                                    $_item->getRowTotal()-$_item->getDiscountAmount()+$_item->getTaxAmount()
+                                ) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- ===== END Items Block ===== -->
+
+    <div class="col3-set">
+
+        <?php /* @var $_order Mage_Sales_Model_Order */ ?>
+        <!--Billing Address-->
+        <?php if($_order->getBillingAddress()):?>
+        <div class="entry-edit col-1">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+            </div>
+            <div class="fieldset">
+                <div class="hor-scroll">
+                    <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
+                </div>
+            </div>
+        </div>
+<?php endif; ?>
+        <div class="entry-edit col-2">
+            <?php if ($_order->getShippingAddress()): ?>
+                <!--Shipping Address-->
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+                </div>
+                <div class="fieldset">
+                    <div class="hor-scroll">
+                        <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- ===== Start Totals Block ===== -->
+        <div class="entry-edit col-3">
+            <div class="entry-edit-head"><h4>Order Totals</h4></div>
+            <div class="order-totals">
+                <?php
+                $_source = $this->getSource();
+                $totlaBlock = $this->getTotalBLock($_order);
+
+                ?>
+                <table cellspacing="0" width="100%">
+                    <col />
+                    <col width="1" />
+                    <?php $_totals = $totlaBlock->getTotals('')?>
+                    <?php if ($_totals):?>
+                        <tbody>
+                        <?php foreach ($_totals as $_code => $_total): ?>
+                            <?php if ($_total->getBlockName()): ?>
+                                <?php echo $totlaBlock->getChildHtml($_total->getBlockName(), false); ?>
+                            <?php else:?>
+                                <tr class="<?php echo $_code?>">
+                                    <td <?php echo $totlaBlock->getLabelProperties()?> class="label">
+                                        <?php if ($_total->getStrong()):?>
+                                            <strong><?php echo $_total->getLabel()?></strong>
+                                        <?php else:?>
+                                            <?php echo $_total->getLabel()?>
+                                        <?php endif?>
+                                    </td>
+                                    <?php if ($_total->getStrong()):?>
+                                    <td <?php echo $totlaBlock->getValueProperties()?> class="emph">
+                                        <strong><?php echo $totlaBlock->formatValue($_total) ?></strong>
+                                        <?php else:?>
+                                    <td <?php echo $totlaBlock->getValueProperties()?>>
+                                        <?php echo $totlaBlock->formatValue($_total) ?>
+                                        <?php endif?>
+                                    </td>
+                                </tr>
+                            <?php endif?>
+                        <?php endforeach?>
+                        </tbody>
+                    <?php endif?>
+
+                    <?php $_totals = $totlaBlock->getTotals('footer')?>
+                    <?php if ($_totals):?>
+                        <tfoot>
+                        <?php foreach ($totlaBlock->getTotals('footer') as $_code => $_total): ?>
+                            <?php if ($_total->getBlockName()): ?>
+                                <?php echo $totlaBlock->getChildHtml($_total->getBlockName(), false); ?>
+                            <?php else:?>
+                                <tr class="<?php echo $_code?>">
+                                    <td <?php echo $totlaBlock->getLabelProperties()?> class="label">
+                                        <strong><?php echo $_total->getLabel()?></strong>
+                                    </td>
+                                    <td <?php echo $totlaBlock->getValueProperties()?> class="emph">
+                                        <strong><?php echo $totlaBlock->formatValue($_total) ?></strong>
+                                    </td>
+                                </tr>
+                            <?php endif?>
+                        <?php endforeach?>
+                        </tfoot>
+                    <?php endif?>
+                </table>
+            </div>
+        </div>
+        <!-- ===== END Totals Block ===== -->
+
+        <div class="clear"></div>
+    </div><!-- //.col3-set -->
+
+    </div><!-- //.box -->
+
+    </div>
+
+<?php elseif ($this->getEmptyText()): ?>
+    <div class="empty-text <?php echo $this->getEmptyTextClass() ?>"><?php echo $this->getEmptyText() ?></div>
+<?php endif; ?>
+

@@ -1,0 +1,73 @@
+<?php if ($_product = $this->getProduct()):
+    $_helper = $this->helper('catalog/output');
+    $_taxHelper = $this->helper('tax');
+    $_coreHelper = $this->helper('core');
+    $_price = $_taxHelper->getPrice($_product, $_product->getPrice());
+    ?>
+
+    <div class="entry-edit" id="toporder" style="margin:3px 0 20px 0;">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account">
+                Information1111 <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h4>
+        </div>
+        <fieldset>
+            <div class="box-left"> <?php echo $this->getChildHtml('gridproduct_media') ?></div>
+            <table class="box-right" cellspacing="2">
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Name') ?></strong></td>
+                    <td><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Description') ?></strong></td>
+                    <td><?php echo $_helper->productAttribute($_product, $_product->getDescription(), 'description') ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('SKU') ?></strong></td>
+                    <td><?php echo $_helper->productAttribute($_product, $_product->getSKU(), 'SKU') ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Weight') ?></strong></td>
+                    <td><?php echo $_helper->productAttribute($_product, $_product->getWeight(), 'Weight') ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Status') ?></strong></td>
+                    <td><?php echo Mage_Catalog_Model_Product_Status::getOptionText($_product->getStatus()) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('URL Key') ?></strong></td>
+                    <td><?php echo $_helper->productAttribute($_product, $_product->getUrl_key(), 'url_key') ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Visibility') ?></strong></td>
+                    <td><?php echo Mage_Catalog_Model_Product_Visibility::getOptionText($_product->getVisibility()) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Price') ?></strong></td>
+                    <td><?php echo $_coreHelper->currency($_price, true, true) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Availability') ?></strong></td>
+                    <td><?php if ($_product->getIsInStock()): ?>
+                            <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+                        <?php else: ?>
+                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span>
+                            </p>
+                        <?php endif; ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Qty') ?></strong></td>
+                    <td><?php echo round($_product->getStockItem()->getQty(),0); ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo Mage::helper('catalog')->__('Category') ?></strong></td>
+                    <td><?php echo $this->getCategories(); ?></td>
+                </tr>
+            </table>
+
+        </fieldset>
+        <div class="clear"></div>
+    </div><!-- //.col3-set -->
+<?php elseif ($this->getEmptyText()): ?>
+    <div class="empty-text <?php echo $this->getEmptyTextClass() ?>"><?php echo $this->getEmptyText() ?></div>
+<?php endif; ?>
+

@@ -1,0 +1,121 @@
+<?php if (is_array($this->getChild('diagrams')->getTabsIds())) : ?>
+    <script type="text/javascript">
+        //<![CDATA[
+        function changeDiagramsPeriod(periodObj) {
+            periodParam = periodObj.value ? 'period/' + periodObj.value + '/' : '';
+            <?php foreach ($this->getChild('diagrams')->getTabsIds() as $tabId): ?>
+                <?php if ($tabId!='summary'):?>
+                    ajaxBlockParam = 'block/tab_<?php echo $tabId ?>/';
+                    ajaxBlockUrl = '<?php echo $this->getUrl('*/*/ajaxBlock', array('_current' => true, 'block' => '', 'period' => '')) ?>' + ajaxBlockParam + periodParam;
+                    new Ajax.Request(ajaxBlockUrl, {
+                        parameters: {isAjax: 'true', form_key: FORM_KEY},
+                        onSuccess: function(transport) {
+                            tabContentElementId = '<?php echo $this->getChild('diagrams')->getId() ?>_<?php echo $tabId ?>_content';
+                            try {
+                                if (transport.responseText.isJSON()) {
+                                    var response = transport.responseText.evalJSON()
+                                    if (response.error) {
+                                        alert(response.message);
+                                    }
+                                    if(response.ajaxExpired && response.ajaxRedirect) {
+                                        setLocation(response.ajaxRedirect);
+                                    }
+                                } else {
+                                    $(tabContentElementId).update(transport.responseText);
+                                }
+                            }
+                            catch (e) {
+                                $(tabContentElementId).update(transport.responseText);
+                            }
+                        }
+                    });
+                <?php endif;?>
+            <?php endforeach; ?>
+
+        }
+        //]]>
+    </script>
+<?php endif; ?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td>
+                <h3 class="icon-head head-online-visitors"><?php echo Mage::helper('magjah_dash')->__('Customer, Orders, Products') ?></h3>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="loading-mask" style="display:none">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>"
+                                                    alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/><br/><?php echo Mage::helper('adminhtml')->__('Please wait...') ?>
+    </p>
+</div>
+<div class="entry-edit gridContainerLeft">
+    <div class="entry-edit">
+        <div class="entry-edit-head title">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Customers') ?></h4>
+        </div>
+        <div class="box">
+            <?php echo $this->getChildHtml('gridcustomer') ?>
+        </div>
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head title">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Orders') ?></h4>
+        </div>
+        <div class="box">
+            <?php echo $this->getChildHtml('gridorder') ?>
+        </div>
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head title">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Products') ?></h4>
+        </div>
+        <div class="box">
+            <?php echo $this->getChildHtml('gridproduct') ?>
+            <?php $topProductSellers = $this->bestSellers();
+            $cantBest = $topProductSellers->count();
+            ?>
+            <?php if ($cantBest): ?>
+                <div class="box best-selling">
+                    <h3>Best Selling Products</h3>
+                    <table border="0" cellspacing="2" style="text-align: center">
+                        <tbody>
+                        <?php $counter = 0;
+                        foreach ($topProductSellers as $product):
+                            if($product->getSold_quantity()){
+                                ?>
+                                <?php if ($counter % 2 == 0): ?>
+                                    <tr class="<?php echo $counter % 4 ? 'even' : 'odd'; ?>"><?php endif ?>
+                                <td>
+                                    <span style="text-align: centert"><?php echo (int)$product->getSold_quantity()?> Sold</span><br />
+                                    <a href="#" onclick="showUrlDetails('<?php echo $this->getUrl('*/*/product', array('_current'=> true,'id'=>$product->getId() ))?>');"><img class="product-img"
+                                                                                                                                                                               src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(99); ?>"
+                                                                                                                                                                               alt="<?php echo $this->stripTags($this->getImageLabel($product, 'small_image'), null, true) ?>"
+                                                                                                                                                                               width="95" border="0"/></a>
+
+                                    <div class="product-description">
+                                        <p>
+                                            <a href="#" onclick="showUrlDetails('<?php echo $this->getUrl('*/*/product', array('_current'=> true,'id'=>$product->getId() ))?>');"><?php echo $this->stripTags($product->getName(), null, true); ?></a>
+                                        </p>
+                                    </div>
+                                </td>
+                                <?php if ($counter++ % 2): ?></tr><?php endif ;
+                            }?>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+</div>
+
+<div class="entry-edit gridContainerRight">
+    <div id="show-result">
+        <?php echo $this->getChildHtml('diagrams') ?>
+        <?php if (is_array($this->getChild('diagrams')->getTabsIds())) : ?>
+            <div id="diagram_tab_content"></div>
+        <?php endif; ?>
+    </div>
+</div>

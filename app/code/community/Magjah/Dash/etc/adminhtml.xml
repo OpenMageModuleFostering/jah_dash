@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <magjah translate="title" module="magjah_dash">
+            <title>Magjah</title>
+            <sort_order>1000</sort_order>
+            <children>
+                <dash translate="title" module="magjah_dash">
+                    <title>Customs Dashboard</title>
+                    <action>adminhtml/dashboard_index</action>
+                    <sort_order>50</sort_order>
+                </dash>
+            </children>
+        </magjah>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <magjah_dash translate="title" module="magjah_dash">
+                        <title>Magjah</title>
+                        <sort_order>65</sort_order>
+                        <children>
+                            <dash translate="title">
+                                <title>Customs Dashboard</title>
+                                <sort_order>0</sort_order>
+                            </dash>
+                        </children>
+                    </magjah_dash>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <magjah_dash translate="title" module="magjah_dash">
+                                        <title>News Management</title>
+                                    </magjah_dash>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>dash.css</name></action>
+            <action method="addJs"><name>dash/function.js</name></action>
+        </reference>
+    </default>
+</layout>

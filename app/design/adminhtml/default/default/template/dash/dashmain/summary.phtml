@@ -1,0 +1,70 @@
+<?php $customerResult=$this->getResumeCustomer();?>
+<?php $productResult=$this->getResumeProduct();?>
+<?php $orderResult=$this->getResumeOrder();?>
+<div class="entry-edit" id="toporder" style="margin:3px 0 20px 0;">
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 33.33%">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-account">Customer</h4>
+                </div>
+                <fieldset>
+                    <table cellspacing="2">
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total') ?>:</strong></td>
+                            <td class="box-right"><?php echo $customerResult['total']?></td>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total this week') ?>:</strong></td>
+                            <td class="box-right"><?php echo $customerResult['week']?></td>
+                        </tr>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('% this week with the total') ?>
+                                    :</strong></td>
+                            <td class="box-right"><?php echo $customerResult['porcent']?>%</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+            <td>
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-account">Order</h4>
+                </div>
+                <fieldset>
+                    <table cellspacing="2">
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total') ?>:</strong></td>
+                            <td class="box-right"><?php echo $orderResult['total']?></td>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total this week') ?>:</strong></td>
+                            <td class="box-right"><?php echo $orderResult['week']?></td>
+                        </tr>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('% this week with the total') ?>:</strong></td>
+                            <td class="box-right"><?php echo $orderResult['porcent']?>%</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+            <td>
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-account">Product</h4>
+                </div>
+                <fieldset>
+                    <table cellspacing="2">
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total') ?>:</strong></td>
+                            <td class="box-right"><?php echo $productResult['total']?></td>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('Total this week') ?>:</strong></td>
+                            <td class="box-right"><?php echo $productResult['week']?></td>
+                        </tr>
+                        <tr>
+                            <td><strong><?php echo Mage::helper('catalog')->__('% this week with the total') ?>
+                                    :</strong></td>
+                            <td class="box-right"><?php echo $productResult['porcent']?>%</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+    </table>
+</div>

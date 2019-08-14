@@ -1,0 +1,49 @@
+<config>
+    <modules>
+        <Magjah_Dash>
+            <version>0.1.0</version>
+        </Magjah_Dash>
+    </modules>
+    <global>
+        <helpers>
+            <magjah_dash>
+                <class>Magjah_Dash_Helper</class>
+            </magjah_dash>
+        </helpers>
+        <blocks>
+            <magjah_dash>
+                <class>Magjah_Dash_Block</class>
+            </magjah_dash>
+        </blocks>
+        <models>
+            <magjah_dash>
+                <class>Magjah_Dash_Model</class>
+                <resourceModel>magjah_dash_resource</resourceModel>
+            </magjah_dash>
+            <magjah_dash_resource>
+                <class>Magjah_Dash_Model_Resource</class>
+            </magjah_dash_resource>
+        </models>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <magjah_dash before="Mage_Adminhtml">Magjah_Dash_Adminhtml</magjah_dash>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <dash>
+                    <file>dash.xml</file>
+                </dash>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>
