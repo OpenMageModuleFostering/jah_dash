@@ -1,17 +1,5 @@
 {
-    "name": "OpenMageModuleFostering/jah_dash",
-    "type": "magento-module",
-    "license": "OSL",
-    "homepage": "",
-    "description": "The extension allows a statistical summary of the 3 main elements in a store: Customer, Products and Orders.
-It is a dashboard focused on detailing these elements.",
-    "authors": [
-    {
-        "name": "Jose A Hernandez",
-        "email": "pepehernandez1980@gmail.com"
-    }
-],
-    "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+    "keywords": [
+        "openmage-module"
+    ]
 }
